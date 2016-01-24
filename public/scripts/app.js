@@ -48,7 +48,10 @@ app.controller('HomeCtrl', ['$scope', function($scope) {
 }]);
 
 app.controller('SearchCtrl', ['$scope', '$http', function($scope, $http) {
+  $scope.searchResult = {};
+
   $scope.searchApi = function() {
+    $scope.searchForm = true;
     var searchParams = $scope.searchParams;
     var url = '/api/wines/';
     var keys = Object.keys(searchParams);
@@ -58,9 +61,10 @@ app.controller('SearchCtrl', ['$scope', '$http', function($scope, $http) {
     }
     url = url.substr(0, url.length-1);
     console.log(url);
-    $http.jsonp(url)
+    $http.get(url)
       .then(function(response) {
         $scope.searchParams = {};
+        $scope.searchResult = response.data;
         console.log(response);
       });
   };

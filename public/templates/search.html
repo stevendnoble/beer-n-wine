@@ -1,17 +1,26 @@
-<h1>Search for a Wine</h1>
-<hr>
-<form ng-submit="searchApi()">
-	<div class="form-group">
-   <input type="text" class="form-control" ng-model="searchParams.producer" placeholder="Producer or Name" autofocus>
- 	</div>
-	<div class="form-group">
-		<input type="text" class="form-control" ng-model="searchParams.wineType" placeholder="Variety or Appellation">
-	</div>
-	<div class="form-group">
-		<input type="text" class="form-control" ng-model="searchParams.year" placeholder="Vintage (Year)">
-	</div>
-	<div class="form-group">
-		<input type="text" class="form-control" ng-model="searchParams.refine" placeholder="Refine Your Search">
-	</div>
- <input type="submit" class="btn btn-primary btn-block">
-</form>
+<div ng-hide="searchForm">
+	<h1>Search for a Wine</h1>
+	<hr>
+	<form ng-submit="searchApi()">
+		<div class="form-group">
+	   <input type="text" class="form-control" ng-model="searchParams.producer" placeholder="Producer or Name" autofocus>
+	 	</div>
+		<div class="form-group">
+			<input type="text" class="form-control" ng-model="searchParams.wineType" placeholder="Variety or Appellation">
+		</div>
+		<div class="form-group">
+			<input type="text" class="form-control" ng-model="searchParams.year" placeholder="Vintage (Year)">
+		</div>
+		<div class="form-group">
+			<input type="text" class="form-control" ng-model="searchParams.refine" placeholder="Refine Your Search">
+		</div>
+	 <input type="submit" class="btn btn-primary btn-block">
+	</form>
+</div>
+
+<div ng-show="searchForm">
+	<h1>{{searchResult.name}}</h1>
+	<hr>
+
+</div>
+
