@@ -47,8 +47,23 @@ app.controller('HomeCtrl', ['$scope', function($scope) {
   $scope.homeTest = "Welcome to the homepage";
 }]);
 
-app.controller('SearchCtrl', ['$scope', function($scope) {
-  $scope.searchTest = "Welcome to the search";
+app.controller('SearchCtrl', ['$scope', '$http', function($scope, $http) {
+  $scope.searchApi = function() {
+    var searchParams = $scope.searchParams;
+    var url = '/api/wines/';
+    var keys = Object.keys(searchParams);
+
+    for(var key in keys) {
+      url += searchParams[keys[key]] + '+';
+    }
+    url = url.substr(0, url.length-1);
+    console.log(url);
+    $http.jsonp(url)
+      .then(function(response) {
+        $scope.searchParams = {};
+        console.log(response);
+      });
+  };
 }]);
 
 app.controller('WineCtrl', ['$scope', function($scope) {
