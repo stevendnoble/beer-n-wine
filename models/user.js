@@ -17,11 +17,11 @@ var UserSchema = new Schema({
 		ref: 'Wine'
 	}],
 	winesRating: [String],
-	beers: [{
-		type: Schema.Types.ObjectId,
-		ref: 'Beer'
-	}],
-	beersRating: [String]
+	// beers: [{
+	// 	type: Schema.Types.ObjectId,
+	// 	ref: 'Beer'
+	// }],
+	// beersRating: [String]
 });
 
 var validatePassword = function (password, callback) {
@@ -32,7 +32,7 @@ var validatePassword = function (password, callback) {
 };
 
 UserSchema.plugin(passportLocalMongoose, {
-	// populateFields: 'wines beers',
+	populateFields: 'wines',
 	passwordValidator: validatePassword
 });
 
