@@ -1,4 +1,4 @@
-<div ng-hide="searchForm">
+<div ng-hide="searchForm" class="col-md-6 col-md-offset-3">
 	<h1>Search for a Wine</h1>
 	<hr>
 	<form ng-submit="searchApi()">
@@ -19,8 +19,27 @@
 </div>
 
 <div ng-show="searchForm">
-	<h1>{{searchResult.name}}</h1>
-	<hr>
+	<div class="col-md-2 col-md-offset-2">
+		<img ng-src="{{searchResult.labelUrl}}" class="img-responsive">
+	</div>
+	<div class="col-md-6">
+		<h1><a ng-href={{searchResult.wineComUrl}}>{{searchResult.name}}</a></h1>
+		<h2>
+			<a ng-href={{searchResult.vineyardUrl}}>{{searchResult.vineyard}}</a>
+		</h2>
+		<hr>
+		<h4>
+			<ul>
+				<li>Wine Type: {{searchResult.wineType}}</li>
+				<li>Varietal: {{searchResult.varietal}}</li>
+				<li>Price: {{searchResult.price}}</li>
+			</ul>
+		</h4>
+		<p ng-if="searchResult.description">
+			Description: {{searchResult.description}}
+		</p>
+	</div>
+	
 
 </div>
 

@@ -64,6 +64,9 @@ app.get('/api/wines/:searchString', function(req, res) {
     newWine.wineComUrl = wine.Url;
     newWine.description = wine.Description;
     newWine.labelUrl = wine.Labels[0].Url;
+    if (newWine.labelUrl.slice(-5) === "m.jpg") {
+      newWine.labelUrl = newWine.labelUrl.slice(0, -5) + 'l.jpg';
+    }
     newWine.wineType = wine.Varietal.WineType.Name;
     newWine.vineyard = wine.Vineyard.Name;
     newWine.vineyardUrl = wine.Vineyard.Url;
