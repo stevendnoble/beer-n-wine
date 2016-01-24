@@ -1,4 +1,4 @@
-var app = angular.module('beerNWineApp', ['ngRoute']);
+var app = angular.module('reWinedApp', ['ngRoute', 'ngResource']);
 
 // route configuration
 app.config(['$routeProvider', '$locationProvider',
@@ -8,17 +8,9 @@ app.config(['$routeProvider', '$locationProvider',
         templateUrl: 'templates/home.html',
         controller: 'HomeCtrl'
       })
-      .when('/profile', {
-        templateUrl: 'templates/profile.html',
-        controller: 'ProfileCtrl'
-      })
-      .when('/signup', {
-        templateUrl: 'templates/signup.html',
-        controller: 'SignupCtrl'
-      })
-      .when('/login', {
-        templateUrl: 'templates/login.html',
-        controller: 'LoginCtrl'
+      .when('/wines', {
+        templateUrl: 'templates/wines.html',
+        controller: 'WineCtrl'
       })
       .otherwise({
         redirectTo: '/'
@@ -31,19 +23,25 @@ app.config(['$routeProvider', '$locationProvider',
   }
 ]);
 
+var baseUrl = 'http://services.wine.com/api/beta2/service.svc/json/catalog?search=:name+:name2+:type+:year&size=50&offset=0&apikey=' + process.env.api_key_wine;
+
+// resource factory
+app.factory('Wine', ['$resource', function($resource) {
+  return $resource(baseUrl, {name: "@name", name2: "@name2", type: "@type", year: "@year" }, {
+    query: {
+      isArray: true,
+      transformResponse: function(data) {
+        return angular.fromJson(data).Products.List;
+      }
+    }
+  });
+}]);
+
 // controllers
 app.controller('HomeCtrl', ['$scope', function($scope) {
   $scope.homeTest = "Welcome to the homepage";
 }]);
 
-app.controller('ProfileCtrl', ['$scope', function($scope) {
-  $scope.profileTest = "Welcome to the profile page";
-}]);
-
-app.controller('SignupCtrl', ['$scope', function($scope) {
-  $scope.signupTest = "Welcome to the signup page";
-}]);
-
-app.controller('LoginCtrl', ['$scope', function($scope) {
-  $scope.loginTest = "Welcome to the login page";
+app.controller('WineCtrl', ['$scope', function($scope) {
+  $scope.winesTest = "Welcome to the profile page";
 }]);
