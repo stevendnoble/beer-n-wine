@@ -12,19 +12,16 @@ var UserSchema = new Schema({
 	password: {
 		type: String
 	},
-	avatar: {
-		type: String,
-		default: 'avatars/avatar0.png'
-	},
-	admin: {
-		type: Boolean,
-		default: false
-	},
-	questions: [{
+	wines: [{
 		type: Schema.Types.ObjectId,
-		ref: 'Question'
+		ref: 'Wine'
 	}],
-	useranswers: [String]
+	winesRating: [String],
+	beers: [{
+		type: Schema.Types.ObjectId,
+		ref: 'Beer'
+	}],
+	beersRating: [String]
 });
 
 var validatePassword = function (password, callback) {
@@ -35,7 +32,7 @@ var validatePassword = function (password, callback) {
 };
 
 UserSchema.plugin(passportLocalMongoose, {
-	populateFields: 'questions',
+	// populateFields: 'wines beers',
 	passwordValidator: validatePassword
 });
 

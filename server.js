@@ -2,7 +2,39 @@
 var express = require('express'),
     app = express(),
     bodyParser = require('body-parser'),
-    mongoose = require('mongoose');
+    mongoose = require('mongoose'),
+    hbs = require('hbs'),
+    mongoose = require('mongoose'),
+    cookieParser = require('cookie-parser'),
+    session = require('express-session'),
+    flash = require('express-flash'),
+    passport = require('passport'),
+    LocalStrategy = require('passport-local').Strategy;
+
+// require models
+var User = require('./models/user');
+
+// Middleware for auth
+app.use(cookieParser());
+app.use(session({
+  secret: 'supersecretkey',
+  resave: false,
+  saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Send flash messages
+app.use(flash());
+
+// Passport config
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+passport.deserializeUser(function(obj, done) {
+  done(null, obj);
+});
 
 // configure bodyParser (for form data)
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -15,7 +47,7 @@ app.use(express.static(__dirname + '/public'));
 app.set('view engine', 'hbs');
 
 // connect to mongodb
-mongoose.connect('mongodb://localhose/mean_sample');
+mongoose.connect('mongodb://localhost/beer_n_wine');
 
 // routes
 app.get('*', function(req, res) {

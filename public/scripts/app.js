@@ -1,4 +1,4 @@
-var app = angular.module('meanApp', ['ngRoute']);
+var app = angular.module('beerNWineApp', ['ngRoute']);
 
 // route configuration
 app.config(['$routeProvider', '$locationProvider',
