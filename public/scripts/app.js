@@ -47,8 +47,8 @@ app.controller('HomeCtrl', ['$scope', function($scope) {
   $scope.homeTest = "Welcome to the homepage";
 }]);
 
-app.controller('SearchCtrl', ['$scope', function($scope) {
-  $scope.searchTest = "Welcome to the search";
+app.controller('Ctrl', ['$scope', function($scope) {
+  $scope.homeTest = "Welcome to the homepage";
 }]);
 
 app.controller('WineCtrl', ['$scope', function($scope) {
