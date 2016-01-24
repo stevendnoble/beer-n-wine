@@ -10,13 +10,18 @@ var WineSchema = new Schema({
 		type: String,
 		required: true
 	},
-	description: {
+	wineComUrl: {
 		type: String,
 		required: true
 	},
+	description: {
+		type: String,
+		// default: "No description available",
+		required: false
+	},
 	labelUrl: {
 		type: String,
-		required: true
+		required: false
 	},
 	wineType: {
 		type: String,
@@ -26,7 +31,7 @@ var WineSchema = new Schema({
 		type: String,
 		required: true
 	},
-	year: {
+	vineyardUrl: {
 		type: String,
 		required: true
 	},
@@ -36,9 +41,10 @@ var WineSchema = new Schema({
 	},
 	price: {
 		type: Number,
-		required: true
+		required: false
 	},
-	usersWines: [String]
+	userRating: [Number],
+	userComment: [String]
 });
 
 var Wine = mongoose.model('Wine', WineSchema);

@@ -4,14 +4,17 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     mongoose = require('mongoose'),
     hbs = require('hbs'),
+    request = require('request'),
     // cookieParser = require('cookie-parser'),
     // session = require('express-session'),
     flash = require('express-flash');
     // passport = require('passport'),
     // LocalStrategy = require('passport-local').Strategy;
 
+require('dotenv').load();
+
 // require models
-// var User = require('./models/user');
+var Wine = require('./models/wine');
 
 // configure bodyParser (for form data)
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -48,11 +51,39 @@ mongoose.connect('mongodb://localhost/beer_n_wine');
 //   });
 // });
 
-app.get('/api/wines/', function(req, res) {
+app.get('/api/wines/:searchString', function(req, res) {
   var searchString = req.params.searchString;
   var searchUrl = 'http://services.wine.com/api/beta2/service.svc/json/catalog?search=' + searchString + '&size=1&offset=0&apikey=' + process.env.api_key_wine;
-  console.log(searchString);
-  console.log(searchUrl);
+  request(searchUrl, function wineApiCall(error, response, body) {
+    var wineData = JSON.parse(body);
+    var wine = wineData.Products.List[0];
+    var newWine = {};
+
+    newWine.wineComId = wine.Id;
+    newWine.name = wine.Name;
+    newWine.wineComUrl = wine.Url;
+    newWine.description = wine.Description;
+    newWine.labelUrl = wine.Labels[0].Url;
+    newWine.wineType = wine.Varietal.WineType.Name;
+    newWine.vineyard = wine.Vineyard.Name;
+    newWine.vineyardUrl = wine.Vineyard.Url;
+    newWine.varietal = wine.Varietal.Name; 
+    newWine.price = wine.PriceRetail;
+    console.log(newWine);
+
+    searchedWine = new Wine(newWine);
+    searchedWine.save(function(err, savedWine) {
+      if (err) {
+        console.log(err);
+        res.status(500).json({
+          error: "Save Error"
+        });
+      } else {
+        console.log(savedWine);
+        res.json(savedWine);
+      }
+    });
+  });
 });
 
 // app.put('/api/todos/:id', function(req, res) {
