@@ -2,6 +2,10 @@ var mongoose = require('mongoose'),
 		Schema = mongoose.Schema;
 
 var WineSchema = new Schema({
+	wineComId: {
+		type: Number,
+		required: true
+	},
 	name: {
 		type: String,
 		required: true

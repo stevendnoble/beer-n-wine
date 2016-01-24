@@ -27,7 +27,7 @@ app.set('view engine', 'hbs');
 mongoose.connect('mongodb://localhost/beer_n_wine');
 
 // API routes
-// app.get('/api/todos', function(req, res) {
+// app.get('/api/wines', function(req, res) {
 //   Todo.find(function(err, allTodos) {
 //     if(err) {
 //       res.status(500).json({ err: err.message });
@@ -48,9 +48,13 @@ mongoose.connect('mongodb://localhost/beer_n_wine');
 //   });
 // });
 
-// app.get('/api/todos/:id', function(req, res) {
+app.get('/api/todos/:searchString', function(req, res) {
+  var searchString = req.params.searchString;
+  var searchUrl = 'http://services.wine.com/api/beta2/service.svc/json/catalog?search=' + searchString + '&size=1&offset=0&apikey=' + process.env.api_key_wine;
 
-// });
+
+
+});
 
 // app.put('/api/todos/:id', function(req, res) {
 

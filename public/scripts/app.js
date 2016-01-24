@@ -8,6 +8,10 @@ app.config(['$routeProvider', '$locationProvider',
         templateUrl: 'templates/home.html',
         controller: 'HomeCtrl'
       })
+      .when('/search', {
+        templateUrl: 'templates/search.html',
+        controller: 'SearchCtrl'
+      })
       .when('/wines', {
         templateUrl: 'templates/wines.html',
         controller: 'WineCtrl'
@@ -23,8 +27,6 @@ app.config(['$routeProvider', '$locationProvider',
   }
 ]);
 
-var baseUrl = 'http://services.wine.com/api/beta2/service.svc/json/catalog?search=:name+:name2+:type+:year&size=50&offset=0&apikey=' + process.env.api_key_wine;
-
 // resource factory
 app.factory('Wine', ['$resource', function($resource) {
   return $resource(baseUrl, {name: "@name", name2: "@name2", type: "@type", year: "@year" }, {
@@ -37,9 +39,16 @@ app.factory('Wine', ['$resource', function($resource) {
   });
 }]);
 
+
+// :name+:name2+:type+:year
+
 // controllers
 app.controller('HomeCtrl', ['$scope', function($scope) {
   $scope.homeTest = "Welcome to the homepage";
+}]);
+
+app.controller('SearchCtrl', ['$scope', function($scope) {
+  $scope.searchTest = "Welcome to the search";
 }]);
 
 app.controller('WineCtrl', ['$scope', function($scope) {
