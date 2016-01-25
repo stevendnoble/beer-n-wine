@@ -1,5 +1,5 @@
-<div ng-hide="searchForm" class="col-md-6 col-md-offset-3">
-	<h1>Search for a Wine</h1>
+<div ng-hide="searchForm" class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1 well well2">
+	<h1 >Search for a Wine</h1>
 	<hr>
 	<form ng-submit="searchApi()">
 		<div class="form-group">
@@ -19,28 +19,41 @@
 </div>
 
 <div ng-show="searchForm">
-	<div class="col-md-2 col-md-offset-1">
-		<br>
-		<img ng-src="{{searchResult.labelUrl}}" class="img-responsive">
-	</div>
-	<div class="col-md-4">
-		<h1><a ng-href={{searchResult.wineComUrl}}>{{searchResult.name}}</a></h1>
-		<h2>
-			<a ng-href={{searchResult.vineyardUrl}}>{{searchResult.vineyard}}</a>
-		</h2>
-		<hr>
-		<h3>
-			<ul>
-				<li><strong>Wine Type:</strong> {{searchResult.wineType}}</li>
-				<li><strong>Varietal:</strong> {{searchResult.varietal}}</li>
-				<li><strong>Price:</strong> {{searchResult.price}}</li>
-			</ul>
-		</h3>
-	</div>
-	<div class="col-md-4">
-		<br>
-		<button ng-click="rateWine()" class="btn btn-block btn-info">Rate This Wine</button>
-		<button ng-click="searchAgain()" class="btn btn-block btn-primary">Search Again</button>
+	<div class="well well3">
+		<div class="col-md-2 col-md-offset-1">
+			<br>
+			<img ng-src="{{searchResult.labelUrl}}" class="img-responsive">
+		</div>
+		<div class="col-md-4">
+			<h1><a ng-href={{searchResult.wineComUrl}}>{{searchResult.name}}</a></h1>
+			<h2>
+				<a ng-href={{searchResult.vineyardUrl}}>{{searchResult.vineyard}}</a>
+			</h2>
+			<hr>
+			<h3><strong>Wine Type:</strong> {{searchResult.wineType}}</h3>
+			<h3><strong>Varietal:</strong> {{searchResult.varietal}}</h3>
+			<h3><strong>Price:</strong> ${{searchResult.price}}</h3>
+		</div>
+		<div class="col-md-4">
+			<br>
+			<button ng-hide="ratingForm" ng-click="ratingForm=true" class="btn btn-block btn-primary">Rate This Wine</button>
+			<button ng-hide="ratingForm" ng-click="searchAgain()" class="btn btn-block btn-primary">Search Again</button>
+			<form ng-show="ratingForm" id="userRatingForm" ng-submit="rateWine()">
+			  <div class="form-group">
+			    <label for="userRatingDropdown">Buy this wine again?</label>
+			    <select class="form-control" id="userRatingDropdown" ng-model="searchResult.userRating">
+			      <!-- <option selected>Buy this wine again?</option> -->
+			      <option value="0">Absolutely not!</option>
+			      <option value="1">Maybe if I'm drunk.</option>
+			      <option value="2">This wine rules!</option>
+			    </select>
+			  </div>
+			  <div class="form-group">
+			    <label for="userRatingTextarea">Tell us what you really think.</label>
+			    <textarea id="userRatingTextarea" rows="5" class="form-control" ng-model="searchResult.userComment"></textarea>
+			  </div>
+			  <input type="submit" class="btn btn-primary btn-block" value="Submit">
+			</form>
+		</div>
 	</div>
 </div>
-

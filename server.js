@@ -59,41 +59,50 @@ app.get('/api/wines/', function(req, res) {
   });
 });
 
+app.post('/api/wines/', function(req, res) {
+  var newWine = new Wine(req.body);
+
+  newWine.save(function(err, savedWine) {
+    if (err) {
+      console.log(err);
+      res.status(500).json({
+        error: "Save Error"
+      });
+    } else {
+      console.log(savedWine);
+      res.json(savedWine);
+    }
+  });
+});
+
 app.get('/api/wines/:searchString', function(req, res) {
   var searchString = req.params.searchString;
   var searchUrl = 'http://services.wine.com/api/beta2/service.svc/json/catalog?search=' + searchString + '&size=1&offset=0&apikey=' + process.env.api_key_wine;
   request(searchUrl, function wineApiCall(error, response, body) {
-    var wineData = JSON.parse(body);
-    var wine = wineData.Products.List[0];
-    var newWine = {};
+    if (error) {
+      // error handling
+    } else {
+      var wineData = JSON.parse(body);
+      var wine = wineData.Products.List[0];
+      var newWine = {};
 
-    newWine.wineComId = wine.Id;
-    newWine.name = wine.Name;
-    newWine.wineComUrl = wine.Url;
-    newWine.description = wine.Description;
-    newWine.labelUrl = wine.Labels[0].Url;
-    if (newWine.labelUrl.slice(-5) === "m.jpg") {
-      newWine.labelUrl = newWine.labelUrl.slice(0, -5) + 'l.jpg';
-    }
-    newWine.wineType = wine.Varietal.WineType.Name;
-    newWine.vineyard = wine.Vineyard.Name;
-    newWine.vineyardUrl = wine.Vineyard.Url;
-    newWine.varietal = wine.Varietal.Name; 
-    newWine.price = wine.PriceRetail;
-    console.log(newWine);
-
-    searchedWine = new Wine(newWine);
-    searchedWine.save(function(err, savedWine) {
-      if (err) {
-        console.log(err);
-        res.status(500).json({
-          error: "Save Error"
-        });
-      } else {
-        console.log(savedWine);
-        res.json(savedWine);
+      newWine.wineComId = wine.Id;
+      newWine.name = wine.Name;
+      newWine.wineComUrl = wine.Url;
+      newWine.description = wine.Description;
+      newWine.labelUrl = wine.Labels[0].Url;
+      if (newWine.labelUrl.slice(-5) === "m.jpg") {
+        newWine.labelUrl = newWine.labelUrl.slice(0, -5) + 'l.jpg';
       }
-    });
+      newWine.wineType = wine.Varietal.WineType.Name;
+      newWine.vineyard = wine.Vineyard.Name;
+      newWine.vineyardUrl = wine.Vineyard.Url;
+      newWine.varietal = wine.Varietal.Name; 
+      newWine.price = wine.PriceRetail;
+      console.log(newWine);
+      
+      res.json(newWine);
+    }
   });
 });
 
