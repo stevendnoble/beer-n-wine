@@ -19,27 +19,28 @@
 </div>
 
 <div ng-show="searchForm">
-	<div class="col-md-2 col-md-offset-2">
+	<div class="col-md-2 col-md-offset-1">
+		<br>
 		<img ng-src="{{searchResult.labelUrl}}" class="img-responsive">
 	</div>
-	<div class="col-md-6">
+	<div class="col-md-4">
 		<h1><a ng-href={{searchResult.wineComUrl}}>{{searchResult.name}}</a></h1>
 		<h2>
 			<a ng-href={{searchResult.vineyardUrl}}>{{searchResult.vineyard}}</a>
 		</h2>
 		<hr>
-		<h4>
+		<h3>
 			<ul>
-				<li>Wine Type: {{searchResult.wineType}}</li>
-				<li>Varietal: {{searchResult.varietal}}</li>
-				<li>Price: {{searchResult.price}}</li>
+				<li><strong>Wine Type:</strong> {{searchResult.wineType}}</li>
+				<li><strong>Varietal:</strong> {{searchResult.varietal}}</li>
+				<li><strong>Price:</strong> {{searchResult.price}}</li>
 			</ul>
-		</h4>
-		<p ng-if="searchResult.description">
-			Description: {{searchResult.description}}
-		</p>
+		</h3>
 	</div>
-	
-
+	<div class="col-md-4">
+		<br>
+		<button ng-click="rateWine()" class="btn btn-block btn-info">Rate This Wine</button>
+		<button ng-click="searchAgain()" class="btn btn-block btn-primary">Search Again</button>
+	</div>
 </div>
 

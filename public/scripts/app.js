@@ -29,11 +29,11 @@ app.config(['$routeProvider', '$locationProvider',
 
 // resource factory
 app.factory('Wine', ['$resource', function($resource) {
-  return $resource(baseUrl, {name: "@name", name2: "@name2", type: "@type", year: "@year" }, {
+  return $resource('/api/wines/:id', { id: '@wineComId' }, {
     query: {
       isArray: true,
       transformResponse: function(data) {
-        return angular.fromJson(data).Products.List;
+        return angular.fromJson(data).wines;
       }
     }
   });
@@ -70,6 +70,6 @@ app.controller('SearchCtrl', ['$scope', '$http', function($scope, $http) {
   };
 }]);
 
-app.controller('WineCtrl', ['$scope', function($scope) {
-  $scope.winesTest = "Welcome to the profile page";
+app.controller('WineCtrl', ['$scope', 'Wine', function($scope, Wine) {
+  $scope.wines = Wine.query();
 }]);
